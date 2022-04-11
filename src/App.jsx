@@ -1,44 +1,48 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useEffect } from 'react'
+import { Navigate, Route, Routes } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
-function App() {
-  const [count, setCount] = useState(0)
+import HomeLayout from './layouts/HomeLayout'
+import Checkout from './pages/Checkout'
+import Home from './pages/Home'
+import PaymentResult from './pages/PaymentResult'
+import Login from './pages/Login'
+import Profile from './pages/Profile'
+import Shop from './pages/Shop'
+import NewProduct from './pages/NewProduct'
+import ProductDetails from './pages/ProductDetails'
+import NewCategory from './pages/NewCategory'
+
+import { autoLogin } from './features/userSlice'
+import { getAll } from './features/productsSlice'
+import { getAllCategories } from './features/categoriesSlice'
+
+function App () {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(autoLogin())
+    dispatch(getAll({ filter: 'none', limit: 10 }))
+    dispatch(getAllCategories())
+  }, [])
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path='/' element={<HomeLayout />}>
+        <Route index element={<Home />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='shop' element={<Shop />} />
+        <Route path='create-product' element={<NewProduct />} />
+        <Route path='create-category' element={<NewCategory />} />
+        <Route path='products/:productId' element={<ProductDetails />} />
+        <Route path='checkout'>
+          <Route index element={<Checkout />} />
+          <Route path='success' element={<PaymentResult />} />
+        </Route>
+      </Route>
+      <Route path='*' element={<Navigate to='/' />} />
+    </Routes>
   )
 }
 
