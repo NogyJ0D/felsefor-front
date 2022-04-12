@@ -16,6 +16,12 @@ export const post = (url, data) => {
     .catch(err => { return err.response.data })
 }
 
+export const put = (url, data) => {
+  return instance.put(url, data, { withCredentials: true })
+    .then(res => { return res })
+    .catch(err => { return err.response.data })
+}
+
 export const postFile = (url, data) => {
   return instance.post(url, data, { withCredentials: true, headers: { 'Content-Type': 'multipart/form-data' } })
     .then(res => { return res })

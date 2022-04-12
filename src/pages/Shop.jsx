@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getAllCategories } from '../features/categoriesSlice'
 import { useForm } from 'react-hook-form'
 import { getAll } from '../features/productsSlice'
-import { BsArrowsAngleContract, BsArrowsAngleExpand, BsPlusCircle } from 'react-icons/bs'
+import { BsArrowsAngleContract, BsArrowsAngleExpand } from 'react-icons/bs'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { URL } from '../config'
@@ -11,7 +11,7 @@ import { URL } from '../config'
 const Shop = () => {
   const products = useSelector(state => state.products)
   const categories = useSelector(state => state.categories)
-  const user = useSelector(state => state.user)
+  // const user = useSelector(state => state.user)
   const dispatch = useDispatch()
   const { register, handleSubmit } = useForm()
   const [openFilters, setOpenFilters] = useState(false)
@@ -31,13 +31,6 @@ const Shop = () => {
       animate={{ y: 0 }}
     >
       <h2 className='text-3xl font-bold'>Productos</h2>
-      {
-        user.role >= 3 &&
-          <>
-            <Link to='/create-product' className='flex items-center gap-4 px-2 font-bold text-white border-2 rounded-full hover:bg-eerie-800 bg-eerie-900 border-felse'><BsPlusCircle />Crear nuevo producto</Link>
-            <Link to='/create-category' className='flex items-center gap-4 px-2 font-bold text-white border-2 rounded-full hover:bg-eerie-800 bg-eerie-900 border-felse'><BsPlusCircle />Crear nueva categoría</Link>
-          </>
-        }
       <AnimatePresence>
         <motion.div
           animate={openFilters
@@ -105,9 +98,10 @@ const Shop = () => {
         !products.loading &&
         products.docs.map(item => {
           return (
-            <Link className='w-3/4 border-2 h-96 border-felse bg-eerie-700/50' key={item._id} to={`/products/${item._id}`}>
-              <p>{item.name}</p>
-              <img className='w-full h-full' src={URL + item.logoUrl} alt={item.name} />
+            <Link className='w-3/4 border-2 h-max flex flex-col gap-2 items-center border-felse bg-eerie-700/50' key={item._id} to={`/products/${item._id}`}>
+              <img className='' src={URL + item.logoUrl} alt={item.name} />
+              <p className='text-3xl font-semibold'>{item.name}</p>
+              <p className='font-semibold text-xl'>${item.unitPrice}</p>
             </Link>
           )
         })

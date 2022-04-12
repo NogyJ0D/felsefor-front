@@ -57,7 +57,8 @@ const userSlice = createSlice({
     role: undefined,
     profile_pic: undefined,
     customerId: undefined,
-    address: undefined
+    address: undefined,
+    cartId: undefined
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -77,6 +78,7 @@ const userSlice = createSlice({
       state.profile_pic = payload.profile_pic
       state.customerId = payload.customerId
       state.address = payload.address
+      state.cartId = payload.cartId
     })
     builder.addCase(login.rejected, (state, { payload }) => {
       state.loading = false
@@ -102,6 +104,7 @@ const userSlice = createSlice({
       state.profile_pic = undefined
       state.customerId = undefined
       state.address = undefined
+      state.cartId = undefined
     })
 
     // builder.addCase(signup.pending, (state, action) => {
@@ -120,6 +123,7 @@ const userSlice = createSlice({
       state.profile_pic = payload.profile_pic
       state.customerId = payload.customerId
       state.address = payload.address
+      state.cartId = payload.cartId
     })
     builder.addCase(signup.rejected, (state, { payload }) => {
       state.loading = false
@@ -143,6 +147,7 @@ const userSlice = createSlice({
       state.profile_pic = payload.profile_pic
       state.customerId = payload.customerId
       state.address = payload.address
+      state.cartId = payload.cartId
     })
     builder.addCase(autoLogin.rejected, (state, { payload }) => {
       state.loading = false

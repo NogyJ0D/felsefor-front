@@ -1,20 +1,18 @@
 import { useStripe } from '@stripe/react-stripe-js'
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
 const PaymentResult = () => {
   const stripe = useStripe()
   const [message, setMessage] = useState('')
+  const { state } = useLocation()
 
   useEffect(() => {
-    const clientSecret = new URLSearchParams(window.location.search).get(
-      'payment_intent_client_secret'
-    )
-
-    stripe.retrievePaymentIntent(clientSecret)
+    stripe.retrievePaymentIntent(state.clientSecret)
       .then(({ paymentIntent }) => {
-        switch (paymentIntent) {
+        switch (paymentIntent.status) {
           case 'succeeded':
-            setMessage('¡Pago completado!')
+            setMessage('¡Pago completado! Puede volver a la página de inicio.')
             break
           case 'processing':
             setMessage('Tu pago está en proceso.')
@@ -27,7 +25,7 @@ const PaymentResult = () => {
             break
         }
       })
-  }, [])
+  }, [stripe])
 
   return (
     <div>

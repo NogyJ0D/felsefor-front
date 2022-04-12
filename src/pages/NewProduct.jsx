@@ -42,8 +42,8 @@ const NewProduct = () => {
         <label className='' htmlFor='description'>Descripción</label>
         <textarea className='p-2 border-l-8 outline-none bg-eerie-900 focus:bg-eerie-800 rounded-xl border-for' required id='description' {...register('description', { required: true })} />
 
-        <label className='' htmlFor='unitPrice'>Precio unitario (USD, agregar 00 al final)</label>
-        <input className='p-2 border-l-8 outline-none bg-eerie-900 focus:bg-eerie-800 rounded-xl border-for' required type='number' min='0' placeholder='100 = 1 usd' id='unitPrice' {...register('unitPrice', { register: true, min: 0 })} />
+        <label className='' htmlFor='unitPrice'>Precio unitario (USD)</label>
+        <input className='p-2 border-l-8 outline-none bg-eerie-900 focus:bg-eerie-800 rounded-xl border-for' required type='number' min='0' id='unitPrice' {...register('unitPrice', { register: true, min: 0 })} />
 
         <label className='' htmlFor='totalAmount'>Existencia inicial</label>
         <input className='p-2 border-l-8 outline-none bg-eerie-900 focus:bg-eerie-800 rounded-xl border-for' type='number' min='0' id='totalAmount' {...register('totalAmount', { min: 0 })} />

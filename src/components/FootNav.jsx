@@ -1,14 +1,16 @@
-import { BiMenu, BiQuestionMark, BiUserCircle } from 'react-icons/bi'
+import { BiCart, BiMenu, BiUserCircle } from 'react-icons/bi'
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useSelector } from 'react-redux'
 import { AiOutlineHome } from 'react-icons/ai'
 import { BsShop } from 'react-icons/bs'
+import { GrUserSettings } from 'react-icons/gr'
 
 const FootNav = () => {
   const [openNav, setOpenNav] = useState(false)
   const user = useSelector(state => state.user)
+  const cart = useSelector(state => state.carts)
 
   return (
 
@@ -30,12 +32,19 @@ const FootNav = () => {
             exit={{ y: -4, opacity: 0 }}
             className='bottom-0 z-0 flex flex-col items-center w-full py-2 text-2xl rounded-t-3xl bg-eerie-700'
           >
-            <NavLink to='/faq' className='flex items-center gap-2'><BiQuestionMark /> FAQ</NavLink>
-            <NavLink to='/checkout' className='flex items-center gap-2'><BiQuestionMark /> Checkout</NavLink>
+            {
+              user.logged && user.role >= 3 &&
+                <NavLink className='flex items-center gap-2' to='/admin-panel'><GrUserSettings /> Panel de administración</NavLink>
+            }
             <NavLink to='/shop' className='flex items-center gap-2'><BsShop /> Productos</NavLink>
             {
               user.logged
-                ? <NavLink className='flex items-center gap-2' to='/profile'><BiUserCircle /> Mi perfil</NavLink>
+                ? (
+                  <>
+                    <NavLink className='flex items-center gap-2' to='/my-cart'><BiCart /> Mi Carrito ({cart?.products?.length})</NavLink>
+                    <NavLink className='flex items-center gap-2' to='/profile'><BiUserCircle /> Mi perfil</NavLink>
+                  </>
+                  )
                 : <NavLink className='flex items-center gap-2' to='/login'><BiUserCircle /> Iniciar sesión</NavLink>
             }
             <NavLink to='/' className='flex items-center gap-2'><AiOutlineHome /> Inicio</NavLink>
